@@ -1,0 +1,31 @@
+name: Upload WASM File
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on pushes to the main branch
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Optional: Build your project (if needed)
+      - name: Build project
+        run: |
+          echo "Building project..."
+          # Add your build commands here (e.g., npm install, npm run build)
+
+      # Upload the .wasm file using rsync or scp
+      - name: Upload .wasm file
+        run: |
+          echo "Uploading .wasm file..."
+          rsync -avz ./path/to/your/file.wasm user@your-server:/path/to/destination/
+          # OR use scp:
+          # scp ./path/to/your/file.wasm user@your-server:/path/to/destination/
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your SSH private key as a GitHub secret
